@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>健康與護理 選擇題刷題題庫（共40題）</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px 14px 50px;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: #fff;
+      padding: 24px 24px 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+      margin-bottom: 18px;
+    }
+
+    header h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    /* Controls Bar */
+    .controls-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .control-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background: #f1f5f9;
+    }
+
+    .btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-warning {
+      background: var(--warning-bg);
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .btn-warning:hover {
+      background: #fde68a;
+    }
+
+    .select-input {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .toggles label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Stats Bar */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .stat-value.correct { color: var(--success); }
+    .stat-value.wrong { color: var(--danger); }
+    .stat-value.rate { color: var(--primary); }
+
+    /* Progress Bar */
+    .progress-wrap {
+      background: #e2e8f0;
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      margin-bottom: 16px;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .q-counter {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .q-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.55;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: #fff;
+      font-size: 1.02rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #93c5fd;
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .option-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+      font-weight: 700;
+    }
+
+    .option-btn.correct .option-key {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      color: #991b1b;
+    }
+
+    .option-btn.wrong .option-key {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .feedback-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box.ok {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+
+    .feedback-box.err {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 22px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Result Screen */
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      text-align: center;
+      display: none;
+      margin-bottom: 16px;
+    }
+
+    .result-score {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 10px 0;
+    }
+
+    /* Browse List View */
+    .browse-card {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .browse-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .browse-opts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .browse-opt {
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      font-size: 0.93rem;
+    }
+
+    .browse-opt.ans {
+      background: var(--success-bg);
+      border-color: #86efac;
+      color: #065f46;
+      font-weight: 700;
+    }
+
+    .hide-ans .browse-opt.ans {
+      background: #f8fafc;
+      border-color: var(--border);
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .hide-ans .browse-note {
+      display: none;
+    }
+
+    .browse-note {
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #b45309;
+      background: #fffbeb;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #fde68a;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .q-text {
+        font-size: 1.08rem;
+      }
+      .quiz-card {
+        padding: 18px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>健康與護理 選擇題刷題題庫（40題完整版）</h1>
+      <p>支援順序刷題、隨機抽題、選項洗牌、錯題重練與題庫背誦模式</p>
+    </header>
+
+    <div class="controls-card">
+      <div class="control-row">
+        <div class="mode-tabs">
+          <button class="btn active" id="modeSequential" onclick="startQuiz('sequential')">順序模式</button>
+          <button class="btn" id="modeRandom" onclick="startQuiz('random')">隨機模式</button>
+          <button class="btn btn-warning" id="modeWrong" onclick="startQuiz('wrong')">錯題重練 (<span id="wrongCountBtn">0</span>)</button>
+          <button class="btn" id="modeBrowse" onclick="switchToBrowse()">題庫總覽 / 背題</button>
+        </div>
+
+        <div>
+          <select id="unitFilter" class="select-input" onchange="onUnitChange()">
+            <option value="all">全部單元（共 40 題）</option>
+            <option value="1-1">1-1 全人健康與傳統養生（10 題）</option>
+            <option value="1-2">1-2 健康體位與視力口腔保健（10 題）</option>
+            <option value="1-3">1-3 進擊的傳染病（10 題）</option>
+            <option value="1-4">1-4 慢性病預防與健康生活（10 題）</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-row" id="quizTogglesRow">
+        <div class="toggles">
+          <label><input type="checkbox" id="shuffleOptsToggle" onchange="restartCurrentMode()"> 隨機打亂 (A)(B)(C)(D) 選項順序</label>
+          <label><input type="checkbox" id="autoNextToggle" checked> 答對後自動跳下一題</label>
+        </div>
+        <button class="btn" onclick="restartCurrentMode()">🔄 重新開始本輪</button>
+      </div>
+
+      <div class="control-row" id="browseTogglesRow" style="display:none;">
+        <div class="toggles">
+          <label><input type="checkbox" id="hideBrowseAns" onchange="toggleBrowseAnswers()"> 遮蔽答案（自我默背測試）</label>
+        </div>
+        <button class="btn btn-primary" onclick="startQuiz('random')">⚡ 立即開始隨機測驗</button>
+      </div>
+    </div>
+
+    <div id="quizSection">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">目前題數</div>
+          <div class="stat-value" id="statProgress">1 / 40</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">答對題數</div>
+          <div class="stat-value correct" id="statCorrect">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">答錯題數</div>
+          <div class="stat-value wrong" id="statWrong">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">正確率</div>
+          <div class="stat-value rate" id="statRate">0%</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="quiz-card" id="questionCard">
+        <div class="q-meta">
+          <span class="badge" id="qUnitBadge">1-1</span>
+          <span class="q-counter" id="qOriginalNo">課本題號：第 1 題</span>
+        </div>
+        <div class="q-text" id="qText">題目載入中...</div>
+        <div class="options-list" id="optionsList"></div>
+
+        <div class="feedback-box" id="feedbackBox"></div>
+
+        <div class="nav-actions">
+          <button class="btn" id="prevBtn" onclick="prevQuestion()">⬅️ 上一題</button>
+          <div style="font-size: 0.82rem; color: var(--muted);">提示：可按鍵盤 1~4 作答、Enter 下一題</div>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一題 ➡️</button>
+        </div>
+      </div>
+
+      <div class="result-card" id="resultCard">
+        <h2 style="font-size: 1.5rem; margin-bottom: 6px;">🎉 本輪刷題完成！</h2>
+        <p style="color: var(--muted);" id="resultSummaryText">你已完成本輪所有題目</p>
+        <div class="result-score" id="resultScore">100%</div>
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:18px;">
+          <button class="btn btn-primary" onclick="restartCurrentMode()">🔄 再刷一次本模式</button>
+          <button class="btn" onclick="startQuiz('random')">🎲 換成隨機模式再刷</button>
+          <button class="btn btn-warning" id="resultRetryWrongBtn" onclick="startQuiz('wrong')">🎯 只刷本輪錯題</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="browse-card" id="browseSection"></div>
+  </div>
+
+  <script>
+    const QUESTION_BANK = [
+      // 1-1 全人健康與傳統養生 (P.6 - P.7)
+      {
+        id: 1, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 1,
+        q: "小華最近感覺情緒起伏大、壓力大，且常常感到沮喪。根據全人健康的意涵，他可能在哪方面需要特別關注？",
+        options: ["生理健康", "社會健康", "心理健康", "心靈健康"],
+        answer: 2,
+        note: "情緒起伏、壓力與沮喪屬於「心理健康」範疇。"
+      },
+      {
+        id: 2, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 2,
+        q: "關於 SeDS 靜態生活死亡症候群的敘述，下列何者正確？",
+        options: ["指久坐與活動過少的文明病風險", "指過度睡眠", "指高強度運動傷害", "指低血糖"],
+        answer: 0,
+        note: "SeDS（Sedentary Death Syndrome）指長期久坐、身體活動量過少所引發的慢性病與健康風險。"
+      },
+      {
+        id: 3, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 3,
+        q: "為了幫助睡眠，建議中午之後盡量不要喝哪類飲料？",
+        options: ["水", "牛奶", "果汁", "咖啡"],
+        answer: 3,
+        note: "咖啡含有咖啡因，中午後飲用容易影響夜間入睡與睡眠品質。"
+      },
+      {
+        id: 4, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 4,
+        q: "青少年每日建議睡眠時間為幾小時？",
+        options: ["5–6小時", "6–7小時", "7–8小時", "9–10小時"],
+        answer: 2,
+        note: "課本習題標準答案為 (C) 7–8小時。"
+      },
+      {
+        id: 5, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 5,
+        q: "傳統養生中提到的「預防勝於治療」觀念，最早是出於哪本著作？",
+        options: ["《論語》", "《道德經》", "《本草綱目》", "《內經．上古天真論》"],
+        answer: 3,
+        note: "《黃帝內經．上古天真論》強調「治未病」，即預防勝於治療。"
+      },
+      {
+        id: 6, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 6,
+        q: "小恩習慣每天早上5點至7點到公園慢跑，覺得呼吸特別順暢、精神也很好。這段時間與哪條經絡最相關？",
+        options: ["心經", "肺經", "腎經", "脾經"],
+        answer: 1,
+        note: "課本習題解答為 (B) 肺經（呼吸順暢與肺經氣血調暢相關）。"
+      },
+      {
+        id: 7, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 7,
+        q: "傳統醫學的養生之道認為，身心達到平衡，才能真正享受健康快樂的生活，這屬於哪種養生原則？",
+        options: ["符合自然規律", "飲食有節", "形神兼養", "動靜結合"],
+        answer: 2,
+        note: "「形」指身體、「神」指精神心靈，身心平衡即為「形神兼養」。"
+      },
+      {
+        id: 8, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 8,
+        q: "助眠穴位「安眠穴」的正確位置位於何處？",
+        options: ["手腕內側", "腳底湧泉穴", "耳後翳風與風池穴的連線中點", "眉心"],
+        answer: 2,
+        note: "安眠穴位於耳後翳風穴與風池穴連線的中點。"
+      },
+      {
+        id: 9, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 9,
+        q: "五色食物與保養五臟對應，何者正確？",
+        options: ["青養肝", "赤養肺", "白養腎", "黑養心"],
+        answer: 0,
+        note: "五色入五臟：青養肝、赤養心、黃養脾、白養肺、黑養腎。"
+      },
+      {
+        id: 10, unit: "1-1", unitName: "1-1 全人健康與傳統養生", qNo: 10,
+        q: "傳統醫學理論中「形神兼養」強調何者？",
+        options: ["只練身體", "身心平衡", "只養心靈", "只求長壽"],
+        answer: 1,
+        note: "形神兼養強調生理（形體）與心理（精神）雙方面的平衡保養。"
+      },
+
+      // 1-2 健康體位與視力口腔保健 (P.11 - P.12)
+      {
+        id: 11, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 1,
+        q: "下列何者不是視網膜剝離的可能症狀？",
+        options: ["眼前景物變形", "視野部分喪失", "水晶體變混濁", "眼前出現閃爍的小光點"],
+        answer: 2,
+        note: "「水晶體變混濁」是白內障的症狀，並非視網膜剝離。"
+      },
+      {
+        id: 12, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 2,
+        q: "牙髓炎的主要症狀是下列何者？",
+        options: ["牙齦腫脹疼痛", "牙髓腔內神經血管發炎、壞死", "牙結石堆積", "刷牙流血"],
+        answer: 1,
+        note: "蛀牙深入牙髓腔會導致牙髓腔內的神經與血管發炎、劇痛甚至壞死。"
+      },
+      {
+        id: 13, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 3,
+        q: "BMI 值過低可能增加下列何種疾病的風險？",
+        options: ["高血壓", "關節炎", "糖尿病", "骨質疏鬆"],
+        answer: 3,
+        note: "體重過輕、BMI 過低容易伴隨營養不足與骨質密度下降，增加骨質疏鬆風險。"
+      },
+      {
+        id: 14, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 4,
+        q: "一位17歲的男生，BMI 為25，請問他的體位是屬於何種型態？",
+        options: ["肥胖", "過重", "正常", "過輕"],
+        answer: 1,
+        note: "17歲男生 BMI 25 屬於「過重」範圍（成人 24 ≤ BMI < 27 亦為過重）。"
+      },
+      {
+        id: 15, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 5,
+        q: "女性腰圍超過幾公分即為肥胖？",
+        options: ["70公分", "75公分", "80公分", "85公分"],
+        answer: 2,
+        note: "老師紅筆重點：成人女性腰圍 ≥ 80 公分、男性腰圍 ≥ 90 公分即屬腹部肥胖。"
+      },
+      {
+        id: 16, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 6,
+        q: "根據「我的餐盤」建議，豆魚蛋肉類食物的攝取優先順序應為？",
+        options: ["豆＞魚＞蛋＞肉", "蛋＞肉＞豆＞魚", "肉＞蛋＞魚＞豆", "魚＞豆＞肉＞蛋"],
+        answer: 0,
+        note: "口訣：「豆魚蛋肉一掌心」，優先順序為 豆類 ＞ 魚類與海鮮 ＞ 蛋類 ＞ 禽畜肉類。"
+      },
+      {
+        id: 17, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 7,
+        q: "純素食飲食者可能較容易缺乏下列何種維生素？",
+        options: ["維生素A", "維生素C", "維生素B12", "維生素E"],
+        answer: 2,
+        note: "維生素 B12 主要存在於動物性食物中，純素食者較容易缺乏（需由藻類、營養酵母或補充劑攝取）。"
+      },
+      {
+        id: 18, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 8,
+        q: "根據美國運動醫學會公布的減重排行榜，下列何種運動的燃脂瘦身效果最好？",
+        options: ["慢跑", "游泳", "騎自行車", "高強度間歇運動"],
+        answer: 3,
+        note: "高強度間歇運動（HIIT）具有後燃效應，燃脂瘦身效率最佳。"
+      },
+      {
+        id: 19, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 9,
+        q: "想要健康的減重，建議每週減輕多少公斤最為理想？",
+        options: ["0.5～1公斤", "1～1.5公斤", "1.5～2公斤", "2公斤以上"],
+        answer: 0,
+        note: "健康減重原則為每週減輕 0.5～1 公斤（每日約減少 500 大卡）。"
+      },
+      {
+        id: 20, unit: "1-2", unitName: "1-2 健康體位與視力口腔保健", qNo: 10,
+        q: "下列哪一觀念錯誤？",
+        options: [
+          "只要刷牙時會流血，就應注意牙齦健康",
+          "只要牙齒沒有明顯疼痛，就不必在意刷牙流血",
+          "牙齦發紅、腫脹可能和牙周問題有關",
+          "牙菌斑若沒有做好清潔，可能進一步破壞牙周組織"
+        ],
+        answer: 1,
+        note: "刷牙流血往往是牙齦炎或牙周病的早期警訊，即使不痛也必須及早就醫與加強清潔。"
+      },
+
+      // 1-3 進擊的傳染病 (P.16 - P.17)
+      {
+        id: 21, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 1,
+        q: "接種流感疫苗，主要是針對傳染病三角模式的哪個部分進行預防？",
+        options: ["易感宿主", "病原體", "傳染途徑", "環境"],
+        answer: 0,
+        note: "接種疫苗能提升人體免疫力，主要是保護並增強「易感宿主」的抵抗力。"
+      },
+      {
+        id: 22, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 2,
+        q: "水痘最主要的傳染途徑為？",
+        options: ["空氣或飛沫", "食物或飲水", "接觸傳染", "蟲媒傳染"],
+        answer: 2,
+        altAnswers: [0, 2],
+        note: "習題本左側填 (C) 接觸傳染、題號旁亦註記 (A) 空氣或飛沫（水痘可經由皮膚直接接觸水疱液及空氣/飛沫傳染，本題選 A 或 C 皆算答對）。"
+      },
+      {
+        id: 23, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 3,
+        q: "預防呼吸道傳染病的基本措施之一是？",
+        options: ["每天喝檸檬水", "勤洗手至少20秒", "每天吃維他命C", "每週一次運動"],
+        answer: 1,
+        note: "使用肥皂或洗手乳勤洗手至少 20 秒，是預防呼吸道與接觸傳染病的基本措施。"
+      },
+      {
+        id: 24, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 4,
+        q: "諾羅病毒腸胃炎的主要流行季節為何？",
+        options: ["3月到5月", "6月到8月", "9月到10月", "11月到隔年3月"],
+        answer: 3,
+        note: "諾羅病毒好發於秋冬與初春寒冷季節（每年 11 月至隔年 3 月為流行高峰）。"
+      },
+      {
+        id: 25, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 5,
+        q: "「都治計畫」的主要目的是？",
+        options: ["防治愛滋病", "讓肺結核患者規律服藥", "控制登革熱", "接種卡介苗"],
+        answer: 1,
+        note: "都治計畫（DOTS：送藥到手、服藥入口、吞下再走）旨在確保肺結核患者規律服藥以治癒疾病並防範抗藥性。"
+      },
+      {
+        id: 26, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 6,
+        q: "預防登革熱的「巡、倒、清、刷」四招中，「倒」指的是？",
+        options: ["倒垃圾", "倒掉積水", "倒蓋容器", "倒掉廢棄物"],
+        answer: 1,
+        altAnswers: [1, 2],
+        note: "老師紅筆補充：標準答案為 (B) 倒掉積水，紅筆亦加註 BC（倒掉積水並將不用的容器倒置/倒蓋）。"
+      },
+      {
+        id: 27, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 7,
+        q: "我國的免費防疫專線是幾號？",
+        options: ["1922", "1955", "1988", "1999"],
+        answer: 0,
+        note: "疾管署免付費防疫專線為 1922。"
+      },
+      {
+        id: 28, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 8,
+        q: "根據疾管署「健康旅遊五大要訣」，如需接種疫苗，建議應於出發前多久至旅遊醫學門診諮詢？",
+        options: ["1～2週", "2～4週", "4～8週", "出發前一天即可"],
+        answer: 2,
+        note: "考量疫苗接種後產生抗體需要時間，建議於出國前 4～8 週（1～2 個月）至旅遊醫學門診諮詢。"
+      },
+      {
+        id: 29, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 9,
+        q: "社區防疫的基本做法不包括下列哪一項？",
+        options: ["定期環境消毒", "立即通報異常情況", "防疫志工推行工作", "停止所有戶外活動"],
+        answer: 3,
+        note: "常態社區防疫無須「停止所有戶外活動」。"
+      },
+      {
+        id: 30, unit: "1-3", unitName: "1-3 進擊的傳染病", qNo: 10,
+        q: "收到不明疫情訊息時，下列哪一管道不是查證來源？",
+        options: ["事實查核中心", "衛福部粉絲專頁", "疾管署全球資訊網", "個人社群留言"],
+        answer: 3,
+        note: "個人社群留言缺乏科學根據與官方查核，不可作為疫情查證來源。"
+      },
+
+      // 1-4 慢性病預防與健康生活 (P.21 - P.22)
+      {
+        id: 31, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 1,
+        q: "糖尿病的典型症狀「三多一少」中，不包含下列何者？",
+        options: ["體重增多", "多吃", "多喝", "多尿"],
+        answer: 0,
+        note: "糖尿病「三多一少」為：多吃、多喝、多尿、體重減少（不包含體重增多）。"
+      },
+      {
+        id: 32, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 2,
+        q: "政府針對40至64歲民眾提供免費成人預防保健服務，補助頻率為何？",
+        options: ["每年1次", "每2年1次", "每3年1次", "每5年1次"],
+        answer: 2,
+        note: "40～64 歲民眾每 3 年補助 1 次；65 歲以上民眾則為每年 1 次。"
+      },
+      {
+        id: 33, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 3,
+        q: "血小板的正常值範圍為？",
+        options: ["1,000–10,000", "20,000–50,000", "100,000–400,000", "140,000–450,000"],
+        answer: 3,
+        note: "老師紅筆訂正：課本標準血小板正常值範圍為 (D) 140,000–450,000 /μL。"
+      },
+      {
+        id: 34, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 4,
+        q: "測量腰圍時，皮尺應調整高度在左右兩側腸骨上緣、肋骨下緣的哪個點？",
+        options: ["下方點", "上方點", "中間點", "隨意"],
+        answer: 2,
+        note: "測量腰圍應通過左右兩側「腸骨上緣」與「肋骨下緣」連線的「中間點」水平繞一圈。"
+      },
+      {
+        id: 35, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 5,
+        q: "代謝症候群是何種狀態？",
+        options: ["一種特定疾病", "一種生病前的狀態", "一種傳染性疾病", "一種遺傳性疾病"],
+        answer: 1,
+        note: "代謝症候群並不是一種特定疾病，而是身體發出的警訊，屬於「一種生病前的狀態（病前狀態）」。"
+      },
+      {
+        id: 36, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 6,
+        q: "反式脂肪常出現在哪種油品氫化後的產物？",
+        options: ["動物油", "植物油", "橄欖油", "椰子油"],
+        answer: 1,
+        note: "人工反式脂肪主要來自「植物油」經部分氫化加工後的產物（如人造奶油、酥油）。"
+      },
+      {
+        id: 37, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 7,
+        q: "建議以全穀取代精製的飲食習慣，主要原因之一是？",
+        options: [
+          "未精製的營養成分太少",
+          "過度精製加工過程可能添加糖與香精",
+          "精製穀物纖維太高",
+          "精製穀物不易保存"
+        ],
+        answer: 1,
+        note: "穀物過度精製不僅流失膳食纖維與維生素B群，加工過程還可能額外添加糖、油脂與香精。"
+      },
+      {
+        id: 38, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 8,
+        q: "飯後散步、拉筋暖身、上下樓梯等運動屬於哪一種類型？",
+        options: [
+          "日常生活的運動",
+          "增加心肺功能的運動",
+          "增加身體柔軟度的運動",
+          "增加爆發力的運動"
+        ],
+        answer: 0,
+        note: "飯後散步、走樓梯等屬於融入「日常生活的運動（生活型態體能活動）」。"
+      },
+      {
+        id: 39, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 9,
+        q: "政府補助肺癌篩檢的對象不包括下列何者？",
+        options: [
+          "45～74歲女性且具有家族史",
+          "45～74歲男性且具有家族史",
+          "50～74歲有重度吸菸史的民眾",
+          "所有40歲以上民眾"
+        ],
+        answer: 3,
+        note: "公費低劑量電腦斷層（LDCT）肺癌篩檢針對具肺癌家族史或重度吸菸史之高風險族群，並非所有 40 歲以上民眾。"
+      },
+      {
+        id: 40, unit: "1-4", unitName: "1-4 慢性病預防與健康生活", qNo: 10,
+        q: "爸爸想要每天運動30分鐘，他的助力可能是什麼？",
+        options: [
+          "全家人一起晚飯後散步運動",
+          "朋友總約他上網打電動",
+          "外食的時間買炸物最方便",
+          "運動一段時間覺得累，擔心半途而廢"
+        ],
+        answer: 0,
+        note: "家人的陪伴與支持（全家人一起晚飯後散步運動）屬於落實健康行為的正向「助力」；其餘皆為阻力。"
+      }
+    ];
+
+    let currentMode = "sequential"; // sequential | random | wrong | browse
+    let currentQueue = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let wrongSet = new Set();
+    let userAnswers = {};
+    let autoNextTimer = null;
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function updateWrongCountBadge() {
+      document.getElementById("wrongCountBtn").textContent = wrongSet.size;
+    }
+
+    function getFilteredQuestions() {
+      const unit = document.getElementById("unitFilter").value;
+      if (unit === "all") return [...QUESTION_BANK];
+      return QUESTION_BANK.filter(q => q.unit === unit);
+    }
+
+    function prepareQuestionInstance(q) {
+      const shuffleOpts = document.getElementById("shuffleOptsToggle").checked;
+      let indices = [0, 1, 2, 3];
+      if (shuffleOpts) {
+        indices = shuffleArray(indices);
+      }
+      const mappedOptions = indices.map(origIdx => ({
+        text: q.options[origIdx],
+        origIdx: origIdx
+      }));
+      return {
+        ...q,
+        mappedOptions
+      };
+    }
+
+    function setActiveTab(mode) {
+      ["modeSequential", "modeRandom", "modeWrong", "modeBrowse"].forEach(id => {
+        document.getElementById(id).classList.remove("active");
+      });
+      if (mode === "sequential") document.getElementById("modeSequential").classList.add("active");
+      if (mode === "random") document.getElementById("modeRandom").classList.add("active");
+      if (mode === "wrong") document.getElementById("modeWrong").classList.add("active");
+      if (mode === "browse") document.getElementById("modeBrowse").classList.add("active");
+    }
+
+    function startQuiz(mode) {
+      if (autoNextTimer) clearTimeout(autoNextTimer);
+      if (mode === "wrong" && wrongSet.size === 0) {
+        alert("目前還沒有答錯的題目喔！先去順序或隨機模式刷題吧！");
+        return;
+      }
+
+      currentMode = mode;
+      setActiveTab(mode);
+
+      document.getElementById("quizSection").style.display = "block";
+      document.getElementById("browseSection").style.display = "none";
+      document.getElementById("quizTogglesRow").style.display = "flex";
+      document.getElementById("browseTogglesRow").style.display = "none";
+      document.getElementById("questionCard").style.display = "block";
+      document.getElementById("resultCard").style.display = "none";
+
+      let baseList = [];
+      if (mode === "wrong") {
+        baseList = QUESTION_BANK.filter(q => wrongSet.has(q.id));
+        baseList = shuffleArray(baseList);
+      } else {
+        baseList = getFilteredQuestions();
+        if (mode === "random") {
+          baseList = shuffleArray(baseList);
+        }
+      }
+
+      currentQueue = baseList.map(q => prepareQuestionInstance(q));
+      currentIndex = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      userAnswers = {};
+
+      updateStats();
+      renderCurrentQuestion();
+    }
+
+    function restartCurrentMode() {
+      if (currentMode === "browse") {
+        renderBrowseView();
+      } else {
+        startQuiz(currentMode);
+      }
+    }
+
+    function onUnitChange() {
+      restartCurrentMode();
+    }
+
+    function updateStats() {
+      const total = currentQueue.length || 1;
+      const answered = correctCount + wrongCount;
+      const rate = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+
+      document.getElementById("statProgress").textContent = `${Math.min(currentIndex + 1, total)} / ${total}`;
+      document.getElementById("statCorrect").textContent = correctCount;
+      document.getElementById("statWrong").textContent = wrongCount;
+      document.getElementById("statRate").textContent = `${rate}%`;
+
+      const pct = Math.round((answered / total) * 100);
+      document.getElementById("progressBar").style.width = `${pct}%`;
+      updateWrongCountBadge();
+    }
+
+    function isAnswerCorrect(qItem, chosenOrigIdx) {
+      if (Array.isArray(qItem.altAnswers)) {
+        return qItem.altAnswers.includes(chosenOrigIdx);
+      }
+      return chosenOrigIdx === qItem.answer;
+    }
+
+    function renderCurrentQuestion() {
+      if (autoNextTimer) clearTimeout(autoNextTimer);
+
+      if (currentIndex >= currentQueue.length) {
+        showResultScreen();
+        return;
+      }
+
+      const qItem = currentQueue[currentIndex];
+      document.getElementById("qUnitBadge").textContent = qItem.unitName;
+      document.getElementById("qOriginalNo").textContent = `單元第 ${qItem.qNo} 題（總題號 #${qItem.id}）`;
+      document.getElementById("qText").textContent = `${currentIndex + 1}. ${qItem.q}`;
+
+      const optionsList = document.getElementById("optionsList");
+      optionsList.innerHTML = "";
+
+      const labels = ["A", "B", "C", "D"];
+      const prevRecord = userAnswers[qItem.id];
+
+      qItem.mappedOptions.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerHTML = `
+          <span class="option-key">${labels[idx]}</span>
+          <span>${opt.text}</span>
+        `;
+
+        if (prevRecord !== undefined) {
+          btn.disabled = true;
+          const isThisCorrect = isAnswerCorrect(qItem, opt.origIdx);
+          if (isThisCorrect) {
+            btn.classList.add("correct");
+          } else if (prevRecord.chosenOrigIdx === opt.origIdx) {
+            btn.classList.add("wrong");
+          }
+        } else {
+          btn.onclick = () => selectOption(idx);
+        }
+
+        optionsList.appendChild(btn);
+      });
+
+      const fb = document.getElementById("feedbackBox");
+      if (prevRecord !== undefined) {
+        showFeedback(qItem, prevRecord.isCorrect);
+      } else {
+        fb.className = "feedback-box";
+        fb.innerHTML = "";
+      }
+
+      document.getElementById("prevBtn").disabled = currentIndex === 0;
+      document.getElementById("nextBtn").textContent =
+        currentIndex === currentQueue.length - 1 ? "查看成績 🏁" : "下一題 ➡️";
+
+      updateStats();
+    }
+
+    function showFeedback(qItem, isCorrect) {
+      const fb = document.getElementById("feedbackBox");
+      const labels = ["A", "B", "C", "D"];
+      const primaryDisplayIdx = qItem.mappedOptions.findIndex(o => o.origIdx === qItem.answer);
+      const ansLetter = labels[primaryDisplayIdx];
+
+      fb.className = `feedback-box show ${isCorrect ? "ok" : "err"}`;
+      fb.innerHTML = `
+        <div style="font-weight:800; margin-bottom:4px;">
+          ${isCorrect ? "✅ 答對了！" : `❌ 答錯了！正確答案為 (${ansLetter}) ${qItem.options[qItem.answer]}`}
+        </div>
+        <div>💡 解析與筆記：${qItem.note}</div>
+      `;
+    }
+
+    function selectOption(displayIdx) {
+      const qItem = currentQueue[currentIndex];
+      if (userAnswers[qItem.id] !== undefined) return;
+
+      const chosenOpt = qItem.mappedOptions[displayIdx];
+      const isCorrect = isAnswerCorrect(qItem, chosenOpt.origIdx);
+
+      userAnswers[qItem.id] = {
+        chosenOrigIdx: chosenOpt.origIdx,
+        isCorrect
+      };
+
+      if (isCorrect) {
+        correctCount++;
+        if (currentMode === "wrong") {
+          wrongSet.delete(qItem.id);
+        }
+      } else {
+        wrongCount++;
+        wrongSet.add(qItem.id);
+      }
+
+      renderCurrentQuestion();
+
+      const autoNext = document.getElementById("autoNextToggle").checked;
+      if (isCorrect && autoNext) {
+        autoNextTimer = setTimeout(() => {
+          nextQuestion();
+        }, 750);
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIndex < currentQueue.length - 1) {
+        currentIndex++;
+        renderCurrentQuestion();
+      } else {
+        currentIndex = currentQueue.length;
+        showResultScreen();
+      }
+    }
+
+    function showResultScreen() {
+      document.getElementById("questionCard").style.display = "none";
+      const resultCard = document.getElementById("resultCard");
+      resultCard.style.display = "block";
+
+      const total = currentQueue.length || 1;
+      const rate = Math.round((correctCount / total) * 100);
+      document.getElementById("resultScore").textContent = `${rate}%`;
+      document.getElementById("resultSummaryText").textContent =
+        `共 ${total} 題｜答對 ${correctCount} 題｜答錯 ${wrongCount} 題`;
+
+      const retryBtn = document.getElementById("resultRetryWrongBtn");
+      retryBtn.style.display = wrongSet.size > 0 ? "inline-flex" : "none";
+      retryBtn.textContent = `🎯 錯題重練 (${wrongSet.size})`;
+      updateStats();
+    }
+
+    function switchToBrowse() {
+      if (autoNextTimer) clearTimeout(autoNextTimer);
+      currentMode = "browse";
+      setActiveTab("browse");
+
+      document.getElementById("quizSection").style.display = "none";
+      document.getElementById("browseSection").style.display = "flex";
+      document.getElementById("quizTogglesRow").style.display = "none";
+      document.getElementById("browseTogglesRow").style.display = "flex";
+
+      renderBrowseView();
+    }
+
+    function renderBrowseView() {
+      const browseSection = document.getElementById("browseSection");
+      const list = getFilteredQuestions();
+      const labels = ["A", "B", "C", "D"];
+
+      browseSection.innerHTML = list.map(q => {
+        const optsHtml = q.options.map((optText, idx) => {
+          const isAns = Array.isArray(q.altAnswers)
+            ? q.altAnswers.includes(idx)
+            : idx === q.answer;
+          return `<div class="browse-opt ${isAns ? "ans" : ""}">(${labels[idx]}) ${optText}</div>`;
+        }).join("");
+
+        return `
+          <div class="browse-item">
+            <div class="q-meta" style="margin-bottom:6px;">
+              <span class="badge">${q.unitName} - 第 ${q.qNo} 題</span>
+              <span class="q-counter">總題號 #${q.id}</span>
+            </div>
+            <div style="font-weight:700; font-size:1.05rem;">${q.id}. ${q.q}</div>
+            <div class="browse-opts">${optsHtml}</div>
+            <div class="browse-note">💡 ${q.note}</div>
+          </div>
+        `;
+      }).join("");
+
+      toggleBrowseAnswers();
+    }
+
+    function toggleBrowseAnswers() {
+      const hide = document.getElementById("hideBrowseAns").checked;
+      const browseSection = document.getElementById("browseSection");
+      if (hide) {
+        browseSection.classList.add("hide-ans");
+      } else {
+        browseSection.classList.remove("hide-ans");
+      }
+    }
+
+    // Keyboard shortcuts
+    window.addEventListener("keydown", (e) => {
+      if (currentMode === "browse") return;
+      if (document.getElementById("questionCard").style.display === "none") return;
+
+      const key = e.key.toUpperCase();
+      if (["1", "A"].includes(key)) selectOption(0);
+      if (["2", "B"].includes(key)) selectOption(1);
+      if (["3", "C"].includes(key)) selectOption(2);
+      if (["4", "D"].includes(key)) selectOption(3);
+      if (e.key === "ArrowRight" || e.key === "Enter") {
+        e.preventDefault();
+        nextQuestion();
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prevQuestion();
+      }
+    });
+
+    // Initialize
+    startQuiz("sequential");
+  </script>
+</body>
+</html>
